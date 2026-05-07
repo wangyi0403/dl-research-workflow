@@ -1,0 +1,58 @@
+%% Elsevier CAS Single-Column Template
+%% cas-sc: single column layout (some Elsevier journals)
+\documentclass[a4paper,fleqn]{cas-sc}
+
+\usepackage[authoryear,longnamesfirst]{natbib}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{hyperref}
+\input{math_commands}
+
+\begin{document}
+\let\WriteBookmarks\relax
+\def\floatpagepagefraction{1}
+\def\textpagefraction{.001}
+
+\shorttitle{SHORT TITLE HERE}
+\shortauthors{AUTHOR ET AL.}
+
+\title[mode=title]{PAPER TITLE HERE}
+
+\author[1]{First Author}[type=author,
+  orcid=0000-0000-0000-0000]
+\cormark[1]
+\ead{email@example.com}
+
+\author[2]{Second Author}[type=author]
+\ead{email2@example.com}
+
+\address[1]{Department, University, City, Country}
+\address[2]{Department, University, City, Country}
+
+\cortext[cor1]{Corresponding author}
+
+\begin{abstract}
+ABSTRACT HERE
+\end{abstract}
+
+\begin{keywords}
+keyword1 \sep keyword2 \sep keyword3 \sep keyword4
+\end{keywords}
+
+\maketitle
+
+\input{sections/1_introduction}
+\input{sections/2_related_work}
+\input{sections/3_method}
+\input{sections/4_experiments}
+\input{sections/5_conclusion}
+
+\bibliographystyle{cas-model2-names}
+\bibliography{references}
+
+\end{document}

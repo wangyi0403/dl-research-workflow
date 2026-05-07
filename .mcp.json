@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "arxiv": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["arxiv-mcp-server"]
+    },
+    "semanticscholar": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["semantic-scholar-mcp"],
+      "env": {
+        "SEMANTIC_SCHOLAR_API_KEY": "${SEMANTIC_SCHOLAR_API_KEY}"
+      }
+    },
+    "openalex": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["openalex-mcp"],
+      "env": {
+        "OPENALEX_DEFAULT_EMAIL": "${OPENALEX_DEFAULT_EMAIL}"
+      }
+    }
+  }
+}
