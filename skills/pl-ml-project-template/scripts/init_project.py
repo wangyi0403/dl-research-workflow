@@ -42,6 +42,7 @@ def _main_py(task_type: str) -> str:
             ModelCheckpoint,
             LearningRateMonitor,
         )
+        from pytorch_lightning.loggers import CSVLogger
 
         from model import MInterface
         from data import DInterface
@@ -70,6 +71,8 @@ def _main_py(task_type: str) -> str:
             parser.add_argument("--max_epochs", default=100, type=int)
             parser.add_argument("--accelerator", default="auto", type=str)
             parser.add_argument("--devices", default=1, type=int)
+            parser.add_argument("--test_only", action="store_true", help="Skip training, run test only")
+            parser.add_argument("--ckpt_path", default=None, type=str, help="Checkpoint path for testing")
 
             args = parser.parse_args()
             args = load_config(args)
@@ -90,16 +93,22 @@ def _main_py(task_type: str) -> str:
                 LearningRateMonitor(logging_interval="epoch"),
             ]
 
+            logger = CSVLogger(save_dir="train_log", name="csv_logs")
+
             trainer = pl.Trainer(
                 max_epochs=args.max_epochs,
                 accelerator=args.accelerator,
                 devices=args.devices,
                 callbacks=callbacks,
+                logger=logger,
                 default_root_dir="train_log",
             )
 
-            trainer.fit(model, datamodule=data_module)
-            trainer.test(model, datamodule=data_module)
+            if args.test_only:
+                trainer.test(model, datamodule=data_module, ckpt_path=args.ckpt_path)
+            else:
+                trainer.fit(model, datamodule=data_module)
+                trainer.test(model, datamodule=data_module, ckpt_path="best")
 
 
         if __name__ == "__main__":
@@ -129,94 +138,144 @@ def _utils_py() -> str:
 
 
 def _model_interface_py(task_type: str) -> str:
-    extra_metrics = ""
+    # Build task-specific blocks
     if task_type == "classification":
-        extra_metrics = dedent("""\
-            import torchmetrics
+        extra_import = "import torchmetrics\n"
+        extra_init = "\n".join([
+            "        self.train_acc = torchmetrics.Accuracy(",
+            '            task="multiclass",',
+            '            num_classes=self.hparams.get("num_classes", 10),',
+            "        )",
+            "        self.val_acc = torchmetrics.Accuracy(",
+            '            task="multiclass",',
+            '            num_classes=self.hparams.get("num_classes", 10),',
+            "        )",
+            "        self.test_acc = torchmetrics.Accuracy(",
+            '            task="multiclass",',
+            '            num_classes=self.hparams.get("num_classes", 10),',
+            "        )",
+        ])
+        extra_train = "\n".join([
+            "        self.train_acc(y_hat.argmax(dim=-1), y)",
+            '        self.log("train_acc", self.train_acc, prog_bar=True)',
+        ])
+        extra_val = "\n".join([
+            "        self.val_acc(y_hat.argmax(dim=-1), y)",
+            '        self.log("val_acc", self.val_acc, prog_bar=True)',
+        ])
+        extra_test = "\n".join([
+            "        self.test_acc(y_hat.argmax(dim=-1), y)",
+            '        self.log("test_acc", self.test_acc)',
+        ])
+    else:
+        extra_import = ""
+        extra_init = ""
+        extra_train = ""
+        extra_val = ""
+        extra_test = ""
 
-                    self.train_acc = torchmetrics.Accuracy(task="multiclass", num_classes=self.hparams.get("num_classes", 10))
-                    self.val_acc = torchmetrics.Accuracy(task="multiclass", num_classes=self.hparams.get("num_classes", 10))
-        """)
+    init_block = "        self.configure_loss()"
+    if extra_init:
+        init_block += "\n" + extra_init
 
-    return dedent(f"""\
-        import inspect
-        import importlib
+    train_block = '        self.log("train_loss", loss, prog_bar=True)'
+    if extra_train:
+        train_block = extra_train + "\n" + train_block
 
-        import torch
-        import torch.nn as nn
-        import pytorch_lightning as pl
+    val_block = '        self.log("val_loss", loss, prog_bar=True)'
+    if extra_val:
+        val_block = extra_val + "\n" + val_block
 
+    test_block = '        self.log("test_loss", loss)'
+    if extra_test:
+        test_block = extra_test + "\n" + test_block
 
-        class MInterface(pl.LightningModule):
-            \"\"\"Universal model interface — dynamically loads any model by name.\"\"\"
-
-            def __init__(self, **kwargs):
-                super().__init__()
-                self.save_hyperparameters()
-                self.load_model()
-                self.configure_loss()
-
-            def load_model(self):
-                name = self.hparams["model_name"]
-                camel = "".join([w.capitalize() for w in name.split("_")])
-                Model = getattr(
-                    importlib.import_module("." + name, package="model"), camel
-                )
-                self.model = self.instancialize(Model)
-
-            def instancialize(self, Model, **other_args):
-                class_args = inspect.getfullargspec(Model.__init__).args[1:]
-                args1 = {{
-                    arg: self.hparams[arg]
-                    for arg in class_args
-                    if arg in self.hparams
-                }}
-                args1.update(other_args)
-                return Model(**args1)
-
-            def configure_loss(self):
-                loss_name = self.hparams.get("loss", "{LOSS_MAP[task_type]}")
-                mapping = {{
-                    "mse": nn.MSELoss,
-                    "l1": nn.L1Loss,
-                    "bce": nn.BCEWithLogitsLoss,
-                    "cross_entropy": nn.CrossEntropyLoss,
-                }}
-                self.loss_fn = mapping.get(loss_name, nn.MSELoss)()
-
-            def forward(self, x):
-                return self.model(x)
-
-            def training_step(self, batch, batch_idx):
-                x, y = batch
-                y_hat = self(x)
-                loss = self.loss_fn(y_hat, y)
-                self.log("train_loss", loss, prog_bar=True)
-                return loss
-
-            def validation_step(self, batch, batch_idx):
-                x, y = batch
-                y_hat = self(x)
-                loss = self.loss_fn(y_hat, y)
-                self.log("val_loss", loss, prog_bar=True)
-
-            def test_step(self, batch, batch_idx):
-                x, y = batch
-                y_hat = self(x)
-                loss = self.loss_fn(y_hat, y)
-                self.log("test_loss", loss)
-
-            def configure_optimizers(self):
-                optimizer = torch.optim.Adam(
-                    self.parameters(),
-                    lr=self.hparams.get("lr", 1e-3),
-                    weight_decay=self.hparams.get("weight_decay", 0.0),
-                )
-                scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
-                    optimizer, T_max=self.hparams.get("max_epochs", 100)
-                )
-                return {{"optimizer": optimizer, "lr_scheduler": scheduler}}
-    """)
+    lines = [
+        "import inspect",
+        "import importlib",
+        "",
+        "import torch",
+        "import torch.nn as nn",
+        "import pytorch_lightning as pl",
+    ]
+    if extra_import:
+        lines.append(extra_import.rstrip())
+    lines += [
+        "",
+        "",
+        "class MInterface(pl.LightningModule):",
+        "",
+        "    def __init__(self, **kwargs):",
+        "        super().__init__()",
+        "        self.save_hyperparameters()",
+        "        self.load_model()",
+        init_block,
+        "",
+        "    def load_model(self):",
+        '        name = self.hparams["model_name"]',
+        '        camel = "".join([w.capitalize() for w in name.split("_")])',
+        "        Model = getattr(",
+        '            importlib.import_module("." + name, package="model"), camel',
+        "        )",
+        "        self.model = self.instancialize(Model)",
+        "",
+        "    def instancialize(self, Model, **other_args):",
+        "        class_args = inspect.getfullargspec(Model.__init__).args[1:]",
+        "        args1 = {",
+        "            arg: self.hparams[arg]",
+        "            for arg in class_args",
+        "            if arg in self.hparams",
+        "        }",
+        "        args1.update(other_args)",
+        "        return Model(**args1)",
+        "",
+        "    def configure_loss(self):",
+        f'        loss_name = self.hparams.get("loss", "{LOSS_MAP[task_type]}")',
+        "        mapping = {",
+        '            "mse": nn.MSELoss,',
+        '            "l1": nn.L1Loss,',
+        '            "bce": nn.BCEWithLogitsLoss,',
+        '            "cross_entropy": nn.CrossEntropyLoss,',
+        "        }",
+        "        self.loss_fn = mapping.get(loss_name, nn.MSELoss)()",
+        "",
+        "    def forward(self, x):",
+        "        return self.model(x)",
+        "",
+        "    def training_step(self, batch, batch_idx):",
+        "        x, y = batch",
+        "        y_hat = self(x)",
+        "        loss = self.loss_fn(y_hat, y)",
+        train_block,
+        "        return loss",
+        "",
+        "    def validation_step(self, batch, batch_idx):",
+        "        x, y = batch",
+        "        y_hat = self(x)",
+        "        loss = self.loss_fn(y_hat, y)",
+        val_block,
+        "",
+        "    def test_step(self, batch, batch_idx):",
+        "        x, y = batch",
+        "        y_hat = self(x)",
+        "        loss = self.loss_fn(y_hat, y)",
+        test_block,
+        "",
+        "    def configure_optimizers(self):",
+        "        optimizer = torch.optim.Adam(",
+        "            self.parameters(),",
+        '            lr=self.hparams.get("lr", 1e-3),',
+        '            weight_decay=self.hparams.get("weight_decay", 0.0),',
+        "        )",
+        "        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(",
+        '            optimizer, T_max=self.hparams.get("max_epochs", 100)',
+        "        )",
+        "        return {",
+        '            "optimizer": optimizer,',
+        '            "lr_scheduler": {"scheduler": scheduler, "interval": "epoch"},',
+        "        }",
+    ]
+    return "\n".join(lines) + "\n"
 
 
 def _data_interface_py() -> str:
@@ -494,8 +553,8 @@ def _train_sh() -> str:
 def _test_sh() -> str:
     return dedent("""\
         #!/usr/bin/env bash
-        # Provide --ckpt_path to load a trained checkpoint
-        python main.py --config configs/default.yaml "$@"
+        # Usage: bash scripts/test.sh --ckpt_path train_log/checkpoints/xxx.ckpt
+        python main.py --config configs/default.yaml --test_only "$@"
     """)
 
 
@@ -505,6 +564,7 @@ def _visualize_py(task_type: str) -> str:
         \"\"\"Visualize training results: loss curves, metrics, and predictions.\"\"\"
 
         import argparse
+        import glob
         import json
         from pathlib import Path
 
@@ -514,14 +574,16 @@ def _visualize_py(task_type: str) -> str:
 
 
         def plot_training_curves(log_dir: str, output_dir: str):
-            metrics_path = Path(log_dir) / "metrics.csv"
             out = Path(output_dir)
             out.mkdir(parents=True, exist_ok=True)
 
-            if not metrics_path.exists():
-                # Try tensorboard event files via CSV export
-                print(f"No metrics.csv at {{metrics_path}}, check TensorBoard logs.")
+            # Find latest metrics.csv from CSVLogger output
+            csv_files = sorted(glob.glob(f"{{log_dir}}/**/metrics.csv", recursive=True))
+            if not csv_files:
+                print(f"No metrics.csv found under {{log_dir}}/. Run training first.")
                 return
+            metrics_path = Path(csv_files[-1])
+            print(f"Reading metrics from {{metrics_path}}")
 
             import csv
             with open(metrics_path) as f:

@@ -1,0 +1,6 @@
+# Core (used by scientific-visualization skill)
+matplotlib>=3.7
+
+# Optional: PDF parsing for paper-audit skill
+# pymupdf>=1.24.0
+# pymupdf4llm>=0.4.0
