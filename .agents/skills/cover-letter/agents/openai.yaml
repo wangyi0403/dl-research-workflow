@@ -1,0 +1,6 @@
+interface:
+  display_name: "Cover Letter"
+  short_description: "Generate a submission cover letter for a journal manuscript."
+  default_prompt: "Use $cover-letter to help with this task."
+policy:
+  allow_implicit_invocation: true

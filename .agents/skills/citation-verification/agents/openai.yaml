@@ -1,0 +1,6 @@
+interface:
+  display_name: "Citation Verification"
+  short_description: "Verify citation identity, version, and claim support"
+  default_prompt: "Use $citation-verification to help with this task."
+policy:
+  allow_implicit_invocation: true

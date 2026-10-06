@@ -1,0 +1,6 @@
+interface:
+  display_name: "Research Publication"
+  short_description: "Prepare a reproducible, privacy-aware release package for res..."
+  default_prompt: "Use $research-publication to help with this task."
+policy:
+  allow_implicit_invocation: true

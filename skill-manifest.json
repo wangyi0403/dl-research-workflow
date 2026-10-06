@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "template": "research-deep-learning-project",
+  "template_version": "3.0.0",
+  "install_policy": "core-on-initialize",
+  "all_catalog_skills_selectable": true,
+  "catalog": {
+    "path": "skills-catalog.json",
+    "selection_command": "python tools/project.py list",
+    "installation_command": "python tools/project.py add <project-path> --profile <profile>",
+    "selection_rule": "Select the smallest relevant profile or bundled skill set. External operations and paid resources require project authorization."
+  },
+  "runtime_dependencies": [
+    {
+      "name": "latex-paper-en",
+      "required_by": [
+        "paper-audit"
+      ],
+      "source_subpath": "scripts",
+      "destination": ".agenthub/runtime/latex-paper-en/scripts",
+      "file_patterns": [
+        "parsers.py",
+        "analyze_grammar.py",
+        "analyze_logic.py",
+        "analyze_experiment.py",
+        "analyze_sentences.py",
+        "deai_check.py",
+        "verify_bib.py",
+        "check_figures.py",
+        "check_pseudocode.py",
+        "check_format.py"
+      ],
+      "purpose": "paper-audit loads its parser and English check scripts from this project-local support bundle; it is not installed as a discoverable Skill."
+    }
+  ],
+  "skills": [
+    {
+      "name": "research-quality-gate",
+      "stages": [
+        "Gate A",
+        "Gate B",
+        "Gate C",
+        "Gate D",
+        "Gate E",
+        "Gate F"
+      ]
+    },
+    {
+      "name": "journal-scout",
+      "stages": [
+        "Stage 1B"
+      ]
+    },
+    {
+      "name": "research-data-audit",
+      "stages": [
+        "Stage 1A"
+      ]
+    },
+    {
+      "name": "research-ideation",
+      "stages": [
+        "Stage 1C"
+      ]
+    },
+    {
+      "name": "research-refine",
+      "stages": [
+        "Stage 1D"
+      ]
+    },
+    {
+      "name": "experiment-plan",
+      "stages": [
+        "Stage 1E"
+      ]
+    },
+    {
+      "name": "research-publication",
+      "stages": [
+        "Stage 6"
+      ]
+    },
+    {
+      "name": "experiment-runner",
+      "stages": [
+        "Stage 2A",
+        "Stage 2B"
+      ]
+    },
+    {
+      "name": "result-to-claim",
+      "stages": [
+        "Stage 2C",
+        "Gate C"
+      ]
+    },
+    {
+      "name": "paper-plan",
+      "stages": [
+        "Stage 3A"
+      ]
+    },
+    {
+      "name": "scientific-figure-making",
+      "stages": [
+        "Stage 3B"
+      ]
+    },
+    {
+      "name": "paper-illustration",
+      "stages": [
+        "Stage 3B"
+      ]
+    },
+    {
+      "name": "paper-write",
+      "stages": [
+        "Stage 4"
+      ]
+    },
+    {
+      "name": "academic-humanizer",
+      "stages": [
+        "Stage 4"
+      ]
+    },
+    {
+      "name": "citation-verification",
+      "stages": [
+        "Stage 4",
+        "Gate F"
+      ]
+    },
+    {
+      "name": "claim-numerics-audit",
+      "stages": [
+        "Stage 4",
+        "Gate F"
+      ]
+    },
+    {
+      "name": "paper-audit",
+      "stages": [
+        "Stage 4",
+        "Gate F",
+        "Stage 5"
+      ]
+    },
+    {
+      "name": "cover-letter",
+      "stages": [
+        "Stage 6"
+      ]
+    }
+  ],
+  "optional_skills": [],
+  "default_profile": "full",
+  "profiles": [
+    {
+      "name": "research",
+      "purpose": "Research question, data, methods, experiment design, execution and result interpretation.",
+      "skills": [
+        "research-quality-gate",
+        "journal-scout",
+        "research-data-audit",
+        "research-ideation",
+        "research-refine",
+        "experiment-plan",
+        "experiment-runner",
+        "result-to-claim"
+      ]
+    },
+    {
+      "name": "writing",
+      "purpose": "Add paper planning, writing, language, citation, numerical and manuscript review.",
+      "skills": [
+        "research-quality-gate",
+        "paper-plan",
+        "paper-write",
+        "academic-humanizer",
+        "citation-verification",
+        "claim-numerics-audit",
+        "paper-audit"
+      ]
+    },
+    {
+      "name": "figures",
+      "purpose": "Add data plots and editable conceptual illustrations.",
+      "skills": [
+        "research-quality-gate",
+        "scientific-figure-making",
+        "paper-illustration"
+      ]
+    },
+    {
+      "name": "release",
+      "purpose": "Add local submission and release preparation.",
+      "skills": [
+        "research-publication",
+        "cover-letter"
+      ]
+    }
+  ],
+  "distribution": "portable-core"
+}

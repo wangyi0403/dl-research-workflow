@@ -1,0 +1,30 @@
+name: Validate portable workflow
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate distribution
+        run: python tools/project.py check .
+      - name: Validate protected setup and agent adapters
+        run: python -B -m unittest discover -s tools/tests -p "test_*.py"
+      - name: Validate result table contracts
+        run: python -B -m unittest discover -s experiments/tests -p "test_*.py"
+      - name: Validate recorded runner
+        run: python -B -m unittest discover -s .agents/skills/experiment-runner/tests -p "test_*.py"
+      - name: Validate manuscript audit runtime
+        run: python -B -m unittest discover -s .agents/skills/paper-audit/evals -p "test_*.py"

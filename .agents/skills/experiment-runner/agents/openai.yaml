@@ -1,0 +1,6 @@
+interface:
+  display_name: "Experiment Runner"
+  short_description: "Run deep-learning experiments with local-first verification"
+  default_prompt: "Use $experiment-runner to help with this task."
+policy:
+  allow_implicit_invocation: true

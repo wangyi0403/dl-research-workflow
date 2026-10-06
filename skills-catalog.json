@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "purpose": "Bundled core research skills",
+  "skill_count": 18,
+  "skills": [
+    {
+      "name": "academic-humanizer",
+      "description": "Polish scholarly prose for clarity, evidence-aligned claims, calibrated limitations, and venue voice. Use for Stage 4 language review; do not optimize for AI detectors.",
+      "category": "Writing and publication",
+      "package": "academic-humanizer",
+      "relative_path": ".agents/skills/academic-humanizer/SKILL.md"
+    },
+    {
+      "name": "citation-verification",
+      "description": "Verify citation metadata and support for manuscript claims during drafting or pre-submission; never invent references.",
+      "category": "Literature and evidence",
+      "package": "citation-verification",
+      "relative_path": ".agents/skills/citation-verification/SKILL.md"
+    },
+    {
+      "name": "claim-numerics-audit",
+      "description": "Check manuscript numbers against experiment records, figures, tables, configurations, and units; report mismatches without silent edits.",
+      "category": "Other specialist workflows",
+      "package": "claim-numerics-audit",
+      "relative_path": ".agents/skills/claim-numerics-audit/SKILL.md"
+    },
+    {
+      "name": "cover-letter",
+      "description": "Prepare a journal submission cover letter when requested or during Stage 6.",
+      "category": "Writing and publication",
+      "package": "cover-letter",
+      "relative_path": ".agents/skills/cover-letter/SKILL.md"
+    },
+    {
+      "name": "experiment-plan",
+      "description": "Design claim-driven experiments, baselines, metrics, ablations, statistics, run order, compute budget, and stop rules after method refinement.",
+      "category": "Experiments and deep learning",
+      "package": "experiment-plan",
+      "relative_path": ".agents/skills/experiment-plan/SKILL.md"
+    },
+    {
+      "name": "experiment-runner",
+      "description": "Run planned local-first training or evaluation with provenance and immutable run records. Use for Stage 2 execution; cloud launches need authorization.",
+      "category": "Experiments and deep learning",
+      "package": "experiment-runner",
+      "relative_path": ".agents/skills/experiment-runner/SKILL.md"
+    },
+    {
+      "name": "journal-scout",
+      "description": "Find and compare target journals after the research question and data are defined. Use for Stage 1B or explicit venue-selection requests.",
+      "category": "Literature and evidence",
+      "package": "journal-scout",
+      "relative_path": ".agents/skills/journal-scout/SKILL.md"
+    },
+    {
+      "name": "paper-audit",
+      "description": "Review complete or revised academic manuscripts for scientific, methodological, citation, numerical, and presentation issues. Use for peer-review or readiness audits, not direct editing or compilation.",
+      "category": "Writing and publication",
+      "package": "paper-audit",
+      "relative_path": ".agents/skills/paper-audit/SKILL.md"
+    },
+    {
+      "name": "paper-illustration",
+      "description": "Create non-data scientific figures such as method diagrams, mechanisms, and conceptual schematics; use editable vector tools when appropriate.",
+      "category": "Writing and publication",
+      "package": "paper-illustration",
+      "relative_path": ".agents/skills/paper-illustration/SKILL.md"
+    },
+    {
+      "name": "paper-plan",
+      "description": "Plan an evidence-led paper from verified claims, results, and venue constraints. Use before drafting to map its narrative, sections, figures, limitations, and evidence.",
+      "category": "Writing and publication",
+      "package": "paper-plan",
+      "relative_path": ".agents/skills/paper-plan/SKILL.md"
+    },
+    {
+      "name": "paper-write",
+      "description": "Draft or revise an academic manuscript from an approved plan and verified evidence. Use for Stage 4, translation, section drafting, or LaTeX preparation.",
+      "category": "Writing and publication",
+      "package": "paper-write",
+      "relative_path": ".agents/skills/paper-write/SKILL.md"
+    },
+    {
+      "name": "research-data-audit",
+      "description": "Audit research data provenance, licensing, schema, quality, leakage, split integrity, and sensitive-data risks before modeling or after dataset changes.",
+      "category": "Other specialist workflows",
+      "package": "research-data-audit",
+      "relative_path": ".agents/skills/research-data-audit/SKILL.md"
+    },
+    {
+      "name": "research-ideation",
+      "description": "Develop literature-grounded research questions and testable candidates. Use for novelty checks, topic selection, or Stage 1C; search absence does not prove novelty.",
+      "category": "Research design and review",
+      "package": "research-ideation",
+      "relative_path": ".agents/skills/research-ideation/SKILL.md"
+    },
+    {
+      "name": "research-publication",
+      "description": "Prepare or audit a reproducible research release package, including code/data documentation, licenses, cards, checksums, and archive metadata. Publishing needs authorization.",
+      "category": "Writing and publication",
+      "package": "research-publication",
+      "relative_path": ".agents/skills/research-publication/SKILL.md"
+    },
+    {
+      "name": "research-quality-gate",
+      "description": "Evaluate evidence-based Gate A-F decisions against project records. Use at research checkpoints; identify decisive gaps and route failures to concrete repairs.",
+      "category": "Research design and review",
+      "package": "research-quality-gate",
+      "relative_path": ".agents/skills/research-quality-gate/SKILL.md"
+    },
+    {
+      "name": "research-refine",
+      "description": "Refine an accepted, evidence-backed idea into a minimal method, mechanism hypothesis, failure modes, and claim-driven validation plan.",
+      "category": "Research design and review",
+      "package": "research-refine",
+      "relative_path": ".agents/skills/research-refine/SKILL.md"
+    },
+    {
+      "name": "result-to-claim",
+      "description": "Assess which completed experiments support, weaken, reject, or leave claims unresolved; separate performance, mechanism, and generalization evidence.",
+      "category": "Experiments and deep learning",
+      "package": "result-to-claim",
+      "relative_path": ".agents/skills/result-to-claim/SKILL.md"
+    },
+    {
+      "name": "scientific-figure-making",
+      "description": "Create publication figures from data with claim-aware charts, honest scales and uncertainty, export, and visual QA. Use for plots, not diagrams.",
+      "category": "Figures and presentation",
+      "package": "scientific-figure-making",
+      "relative_path": ".agents/skills/scientific-figure-making/SKILL.md"
+    }
+  ]
+}

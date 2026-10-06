@@ -1,0 +1,6 @@
+interface:
+  display_name: "Research Refine"
+  short_description: "Turn a vague research direction into a problem-anchored, eleg..."
+  default_prompt: "Use $research-refine to help with this task."
+policy:
+  allow_implicit_invocation: true

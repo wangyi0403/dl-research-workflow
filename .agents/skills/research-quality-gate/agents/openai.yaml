@@ -1,0 +1,6 @@
+interface:
+  display_name: "Research Quality Gate"
+  short_description: "Evidence-based Gate A-F reviews with explicit failure routing"
+  default_prompt: "Use $research-quality-gate to help with this task."
+policy:
+  allow_implicit_invocation: true

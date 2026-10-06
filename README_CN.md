@@ -1,204 +1,101 @@
-# DL Research Workflow
+# DL Research Workflow 3.0
 
-[English](README.md) | [中文](README_CN.md)
+**从研究问题，到证据可追溯的论文。**
 
-> 面向 Claude Code 的半自动化深度学习科研工作流——从文献调研到论文投稿，每个关键决策节点都有人工专家把关。
+[English](README.md) · [简体中文](README_CN.md) · [快速开始](SETUP_CN.md) · [完整流程](docs/WORKFLOW.md) · [设计对比](docs/COMPARISON_CN.md)
 
-![工作流总览](diagram/fig01.png)
+![版本](https://img.shields.io/badge/version-3.0.0-2563eb)
+![核心技能](https://img.shields.io/badge/core_skills-18-16a34a)
+![Agent入口](https://img.shields.io/badge/agents-Codex_%7C_Claude_Code_%7C_generic-7c3aed)
+![许可](https://img.shields.io/badge/license-MIT-475569)
 
-## 为什么做这个项目？
+把文献、研究问题、方法、实验、结果、图表与稿件放进同一个项目，让 AI 助手承担可核对的工作，让研究者在关键科学判断上保持主导。
 
-全自动 AI 科研工具承诺端到端论文生成，但在需要领域专家判断的场景中频繁失败。本工作流采用不同思路：**在每个决策点设置人工检查点**，AI 负责中间的重复性工作。
+**18个核心技能 · Stage 0–6 · Gate A–F · 可追溯实验 · 中英文指南**
 
-### 与现有方案对比
+![科研工作流](resources/workflow.png)
 
-![对比图](diagram/fig03.png)
+## 这套模板解决什么问题？
 
-| 特性         | 全自动方案（AI Scientist 等） | 本工作流                                    |
-| ------------ | ----------------------------- | ------------------------------------------- |
-| 人工监督     | 极少——AI 全权决策           | **4 个强制检查点**，专家审查          |
-| 领域准确性   | 通用——容易幻觉              | 领域定制 prompt + 对抗式审稿                |
-| 工具需求     | 多个 API、平台、账号          | **单一工具**（Claude Code、Codex 等） |
-| 可定制性     | 固定流水线                    | 26 个模块化 skill——可替换、扩展、移除     |
-| 实验监控     | 外部工具（W&B、MLflow）       | 内置后台监控——主线程零上下文增长          |
-| 论文质量门控 | 无或简单阈值                  | 5 角色评审团 + 批判审查                     |
-
-### 两大核心优势
-
-**1. 人工纠正检查点**
-
-不同于全自动流水线的无人值守，本工作流强制设置 4 个门控，由领域专家审查并纠正 AI 决策：
-
-| 检查点 | 时机        | 审查内容                     |
-| ------ | ----------- | ---------------------------- |
-| Gate 1 | 开服务器前  | Idea 新颖性 + 实验计划完整性 |
-| Gate 2 | 写论文前    | 结果质量 + 声明-证据对齐     |
-| Gate 3 | 写 LaTeX 前 | 大纲结构 + 贡献清晰度        |
-| Gate 4 | 投稿前      | 草稿整体质量审计             |
-
-每个门控阻止低质量工作向下游传播。不通过则回退到对应阶段修正——不浪费算力和写作时间。
-
-**2. 单一工具执行**
-
-无需管理 API key。无需创建平台账号。无需配置外部服务。
-
-整个流程在单个 AI 编程助手内完成。文献检索通过 MCP 服务器（arXiv、Semantic Scholar、OpenAlex）——一次配置，跨项目可用。
-
----
-
-## 工作流总览
-
-```
-Stage 0: 初始化          → 项目脚手架 + 期刊选择
-Stage 1: 调研 + 构思     → 文献 → Ideas → 查新 → 实验规划
-         ──── Gate 1 ────
-Stage 2: 实验执行         → 代码实现 → 训练 → 结果分析
-         ──── Gate 2 ────
-Stage 3: 质量审查         → 统计分析 → 声明验证 → 评分 ≥ 6
-         ──── Gate 3 ────
-Stage 4: 论文写作         → 大纲 → 图表 → LaTeX → 审计迭代
-         ──── Gate 4 ────
-Stage 5: 投稿准备         → Cover Letter → Highlights → 最终检查
-```
-
-## 文档数据流
-
-![文档数据流](diagram/fig02.png)
-
-工作流生成 14 个结构化文档（`docs/00` 至 `docs/13`），完整追踪从期刊选择到最终投稿的研究脉络。
-
-## 26 个核心 Skill
-
-| 分组     | Skills                                                                                                                      | 用途                                             |
-| -------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
-| 常驻审稿 | `academic-paper-reviewer` `research-review`                                                                             | 5 角色评审团 + 批判审查                          |
-| 脚手架   | `pl-ml-project-template`                                                                                                  | PyTorch Lightning 项目生成器                     |
-| Idea 链  | `idea-discovery` `research-lit` `idea-creator` `novelty-check` `research-refine`                                  | 文献 → 头脑风暴 → 验证 → 精炼                 |
-| 实验     | `experiment-plan` `ablation-planner` `experiment-bridge` `run-experiment` `pytorch-lightning` `result-to-claim` | 规划 → 实现 → 运行 → 评估                     |
-| 监控     | `auto-monitor`                                                                                                            | 后台实验监控                                     |
-| 结果审查 | `auto-review-loop` `analyze-results`                                                                                    | 迭代评分 + 统计分析                              |
-| 图表     | `paper-figure` `scientific-visualization` `scientific-figure-making` `paper-illustration`                           | 数据图 + 出版级图表 + matplotlib 模式库 + 架构图 |
-| 写作     | `paper-plan` `paper-write` `paper-compile` `humanizer` `paper-audit`                                              | 大纲 → 草稿 → 编译 → 去 AI 味 → 审计         |
-
-### Skill 来源说明
-
-大部分 skill 基于社区开源项目改编，适配本工作流的文档交接协议。两个 skill 为本项目原创。
-
-| 来源               | Skills                                              | 备注                                                                               |
-| ------------------ | --------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| **原创**     | `auto-monitor` `pl-ml-project-template`         | 本项目从零构建                                                                     |
-| **社区改编** | 其余 24 个 skill（含 `scientific-figure-making`） | 来自多个 Claude Code skill 社区仓库。全部经修改以适配 skill 间文档交接和流水线集成 |
-
----
+- **论断与证据接得上。** 每项研究判断关联实验、结果表、图、引用与稿件位置。
+- **实验过程找得回。** 不可变运行身份、配置、日志与终态进入统一台账；按预先约定的运行集合生成结果表。
+- **审查能推动修复。** 程序检查、科学审阅与作者决定分别记录；变化后只重新检查受影响的 Gate。
+- **复用已有助手。** 使用通用 `AGENTS.md`、Claude Code 入口及显式启动提示，技能和支持脚本保存在项目内。
+- **按阶段加载能力。** 可分别选择研究、写作、绘图和发布准备，不需要先装一套全局工具市场。
+- **研究者掌握方向。** 科学问题、证据解释、稿件和发布决定由研究者负责；AI 辅助执行，不承担科学签认。
 
 ## 快速开始
 
-### 前置条件
-
-- [Claude Code](https://claude.ai/code)（或兼容的 AI 编程助手）
-- [uv](https://docs.astral.sh/uv/)（Python 包管理器，arxiv 和 semanticscholar MCP 需要）
-- [Node.js](https://nodejs.org/)（openalex MCP 需要）
-- SSH 可达的 GPU 服务器（训练用）
-
-### 安装
-
-1. 克隆本仓库：
+下载本仓库，或从 GitHub 的 **Code** 菜单复制仓库地址进行克隆。使用 Python 3.10 及以上版本；初始化和结构检查只依赖 Python 标准库。
 
 ```bash
-git clone https://github.com/wangyi0403/dl-research-workflow.git
+cd dl-research-workflow
+python tools/project.py check .
+python tools/project.py init ../my-study --agent codex --profile research --dry-run
+python tools/project.py init ../my-study --agent codex --profile research
 ```
 
-2. 安装文献检索 MCP 服务器：
+Claude Code 使用 `--agent claude`，会额外生成其原生 `.claude/skills/` 副本。其他能读取项目文件的助手使用 `--agent generic`，显式提供 [AI_START.md](AI_START.md)。
+
+DeepSeek Harness、ZCode分别提供 `--agent dsh` / `--agent zcode` 文件契约预设。[兼容说明](docs/AGENT_COMPATIBILITY.md)区分有官方文档依据的入口和仍需实际环境核验的集成行为。
+
+在新项目中告诉助手：
+
+> 先读 `AGENTS.md`、`AI_START.md` 和 `docs/00_start.md`。帮我明确研究问题、数据边界、成功标准与预算，根据当前阶段决定下一步。
+
+研究进入写作、绘图阶段后再补充：
 
 ```bash
-# arXiv — 搜索和下载论文（无需 API key）
-uv tool install arxiv-mcp-server
-
-# Semantic Scholar — 已发表论文检索（API key 可选但推荐）
-uv tool install semantic-scholar-mcp
-# 可选：在 https://www.semanticscholar.org/product/api 获取 API key
-
-# OpenAlex — 开放学术数据（无需 API key）
-npm install -g openalex-mcp
+python tools/project.py add ../my-study --agent codex --profile writing figures
+python tools/project.py check ../my-study
 ```
 
-3. 将配置文件和 skills 复制到你的研究项目（项目级，无需全局安装）：
+已有研究沿用现有证据、成果与状态；初始化器在发现不同内容时停止，不覆盖已有项目。[完整安装说明](SETUP_CN.md)
 
-```bash
-# Linux / macOS
-cd your-project
-cp /path/to/dl-research-workflow/CLAUDE.md .
-cp /path/to/dl-research-workflow/SETUP.md .
-cp /path/to/dl-research-workflow/.mcp.json .
-mkdir -p .claude/skills
-cp -r /path/to/dl-research-workflow/skills/* .claude/skills/
+## 七个阶段，一条证据链
 
-# Windows (PowerShell)
-Set-Location your-project
-Copy-Item \path\to\dl-research-workflow\CLAUDE.md .
-Copy-Item \path\to\dl-research-workflow\SETUP.md .
-Copy-Item \path\to\dl-research-workflow\.mcp.json .
-New-Item -ItemType Directory -Path ".claude\skills" -Force
-Copy-Item -Path "\path\to\dl-research-workflow\skills\*" -Destination ".claude\skills\" -Recurse
-```
+| 阶段 | 工作 | 主要记录 / 检查点 |
+|---|---|---|
+| 0 | 定义范围、数据访问、预算和决策边界 | `docs/00_start.md` |
+| 1 | 数据审计、文献与选题、方法和实验设计 | `docs/01`–`05`，Gate A/B |
+| 2 | 执行实验、分析结果、更新论断 | 实验台账、`docs/06`–`08`，Gate C |
+| 3 | 组织论文论证、图与表 | `docs/09`–`10`，Gate D/E |
+| 4 | 基于证据写作与核验稿件 | `paper/`、`docs/11`，Gate F |
+| 5 | 科学审阅与实际修复 | 带版本的审查问题和修订记录 |
+| 6 | 准备可审阅的投稿 / 发布包 | `docs/12_release_readiness.md` |
 
-全部 26 个 skill 存放于项目的 `.claude/skills/` 下——无需全局安装，每个研究项目完全自包含。
+完整记录位置见 [文档索引](docs/README.md)。目录齐全、脚本运行成功和科学 Gate 通过是不同的完成条件。
 
-4. 编辑 `CLAUDE.md`——填写服务器配置（SSH 地址、端口、目标期刊）。
-5. （可选）设置环境变量提高 API 速率限制：
+## 与已有项目有什么区别？
 
-```bash
-# Semantic Scholar（更高速率限制）
-export SEMANTIC_SCHOLAR_API_KEY="your-key"
-# OpenAlex（100 req/s 而非 10）
-export OPENALEX_DEFAULT_EMAIL="your@email.com"
-```
+| 项目 / 设计 | 主要侧重 | 本模板的侧重 |
+|---|---|---|
+| [AI Scientist-v2](https://github.com/SakanaAI/AI-Scientist-v2) | 借助 Agent 树搜索进行自主科研探索 | 在研究者主导的项目内，让已有助手按阶段和证据推进 |
+| [Agent Laboratory](https://github.com/SamuelSchmidgall/AgentLaboratory) | 专门 Agent 支持文献、实验和报告，容纳人工参与 | 研究问题、论断、运行和稿件之间的持久记录与定点审查 |
+| [AI-Researcher](https://github.com/HKUDS/AI-Researcher) | 一体化自主科研流程 | 可移植项目模板、可替换工具及明确的项目决定 |
+| [AI Research Skills](https://github.com/Orchestra-Research/AI-Research-SKILLs) | 广泛科研 / 工程技能与调度层 | 围绕 Stage 0–6、Gate A–F 和阶段记录组织18个核心技能 |
 
-6. 在 Claude Code 中打开项目，输入：
+本模板把实验迭代、材料组织、按需读取和人工审查等实践思路落实为可检查的项目结构。上表比较设计侧重，不代表经过统一实验验证的论文质量排名。详见 [设计对比](docs/COMPARISON_CN.md) 与 [来源说明](NOTICE.md)。
 
-```
-新建项目 timeseries
-```
+## 仓库内容
 
-脚手架 skill 会生成项目结构。按 `SETUP.md` 加载全部 skill。
-
-### 模型路由（成本优化）
-
-| 层级 | 模型   | 场景                                               |
-| ---- | ------ | -------------------------------------------------- |
-| 最强 | Opus   | Idea 新颖性判断、贡献定义、审稿人角色、paper-audit |
-| 标准 | Sonnet | 大部分写作、代码实现、experiment-bridge            |
-| 最省 | Haiku  | 引用格式化、日志解析、模板填充                     |
-
-## 期刊/会议支持
-
-| 类型              | 支持特性                                     |
-| ----------------- | -------------------------------------------- |
-| Elsevier（DC/SC） | Highlights、Graphical Abstract、Cover Letter |
-| IEEE（期刊/会议） | IEEEtran 格式                                |
-| NeurIPS / ICLR    | Reproducibility Checklist、Supplementary PDF |
-| ICML              | Ethics Statement、Reproducibility Statement  |
-
-## 文件结构
-
-```
+```text
 .
-├── CLAUDE.md          # 项目级 AI 指令（复制到你的项目）
-├── SETUP.md           # 安装指南 + 文档规范（复制到你的项目）
-├── .mcp.json          # 项目级 MCP 配置：arxiv + semanticscholar + openalex
-├── skills/            # 26 个核心 skill
-│   ├── academic-paper-reviewer/
-│   ├── auto-monitor/
-│   ├── idea-discovery/
-│   ├── paper-audit/
-│   ├── ...
-│   └── run-experiment/
-├── diagram/           # 架构图和流程图
-└── README.md
+├── AGENTS.md / CLAUDE.md / AI_START.md  # 通用规则与助手入口
+├── skill-manifest.json                 # 版本、profile与运行支持
+├── .agents/skills/                     # 18个核心技能、参考与脚本
+├── .agenthub/runtime/                  # 稿件审计支持，不计为额外技能
+├── docs/                              # 00–12记录、流程与写作规范
+├── data/                              # 数据；原始/受限数据默认不提交
+├── experiments/                       # 配置、实现、运行契约与台账
+├── results/                           # 可追溯结果、图与表
+├── paper/                             # 稿件与本地投稿材料
+├── resources/                         # 流程、目录图与可编辑源文件
+└── tools/                             # 可移植初始化、检查与回归验证
 ```
 
----
+## 使用边界
 
-## License
+适配器提供目录和读取入口，各助手的工具调用、监督调度及原生技能发现需要在实际环境中核验。绘图或稿件审计的可选依赖按功能安装；缺失检查明确记录，不能当作通过。本仓库不包含凭据、实际研究数据或全局 MCP 配置。
 
-MIT License — 见 [LICENSE](LICENSE)。
+外部发布、付费计算、数据共享和最终科学结论需要研究者确认；项目边界写入 `docs/00_start.md`。项目材料采用 MIT，第三方来源及许可保留在 [NOTICE.md](NOTICE.md) 与 `licenses/`。

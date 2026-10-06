@@ -1,0 +1,6 @@
+interface:
+  display_name: "Academic Humanizer"
+  short_description: "Polish academic prose while preserving claims and author voice"
+  default_prompt: "Use $academic-humanizer to help with this task."
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Result To Claim"
+  short_description: "Use when experiments complete to judge what claims the result..."
+  default_prompt: "Use $result-to-claim to help with this task."
+policy:
+  allow_implicit_invocation: true

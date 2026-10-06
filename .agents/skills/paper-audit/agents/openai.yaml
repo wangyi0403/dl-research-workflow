@@ -1,0 +1,6 @@
+interface:
+  display_name: "Paper Audit"
+  short_description: "Deep-review-first audit for Chinese and English academic pape..."
+  default_prompt: "Use $paper-audit to help with this task."
+policy:
+  allow_implicit_invocation: true

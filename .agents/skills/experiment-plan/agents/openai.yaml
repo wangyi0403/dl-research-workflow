@@ -1,0 +1,6 @@
+interface:
+  display_name: "Experiment Plan"
+  short_description: "Claim-driven experiment plans and evaluation contracts"
+  default_prompt: "Use $experiment-plan to help with this task."
+policy:
+  allow_implicit_invocation: true

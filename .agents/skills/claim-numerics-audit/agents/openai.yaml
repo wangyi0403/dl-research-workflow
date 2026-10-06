@@ -1,0 +1,6 @@
+interface:
+  display_name: "Claim Numerics Audit"
+  short_description: "Cross-check numerical values in paper LaTeX source against ex..."
+  default_prompt: "Use $claim-numerics-audit to help with this task."
+policy:
+  allow_implicit_invocation: true

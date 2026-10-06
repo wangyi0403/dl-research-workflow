@@ -1,0 +1,6 @@
+interface:
+  display_name: "Research Ideation"
+  short_description: "Evidence-grounded research questions and candidate directions"
+  default_prompt: "Use $research-ideation to help with this task."
+policy:
+  allow_implicit_invocation: true

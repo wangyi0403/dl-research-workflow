@@ -1,204 +1,103 @@
-# DL Research Workflow
+# DL Research Workflow 3.0
 
-[English](README.md) | [中文](README_CN.md)
+**From a research question to an auditable paper.**
 
-> A semi-automated deep learning research workflow for Claude Code — from literature review to paper submission, with human expert checkpoints at every critical decision.
+[English](README.md) · [简体中文](README_CN.md) · [Quick start](SETUP.md) · [Workflow](docs/WORKFLOW_EN.md) · [Design comparison](docs/COMPARISON.md)
 
-![Workflow Overview](diagram/fig01.png)
+![Version](https://img.shields.io/badge/version-3.0.0-2563eb)
+![Core skills](https://img.shields.io/badge/core_skills-18-16a34a)
+![Agent interfaces](https://img.shields.io/badge/agents-Codex_%7C_Claude_Code_%7C_generic-7c3aed)
+![License](https://img.shields.io/badge/license-MIT-475569)
 
-## Why This Project?
+A portable, evidence-driven research workspace for AI agents. Organize questions, methods, experiments, results, figures and manuscripts in one project, with human scientific judgment at the decisions that matter.
 
-Fully automated AI research tools promise end-to-end paper generation, but they fail in domain-specific scenarios where expert judgment is critical. This workflow takes a different approach: **human-in-the-loop checkpoints** at every decision point, with AI handling the repetitive work in between.
+**18 focused skills · Stage 0–6 · Gate A–F · traceable experiments · bilingual guides**
 
-### Comparison with Existing Approaches
+![Research workflow](resources/workflow.png)
 
-![Comparison](diagram/fig03.png)
+## Why use it?
 
-| Feature               | Fully Automated (AI Scientist, etc.) | This Workflow                                          |
-| --------------------- | ------------------------------------ | ------------------------------------------------------ |
-| Human oversight       | Minimal — AI decides everything     | **4 mandatory checkpoints** with expert review   |
-| Domain accuracy       | Generic — hallucination-prone       | Domain-specific prompts + adversarial review           |
-| Tool requirements     | Multiple APIs, platforms, accounts   | **Single tool** (Claude Code, Codex, or similar) |
-| Customization         | Fixed pipeline                       | 26 modular skills — swap, extend, remove              |
-| Experiment monitoring | External (W&B, MLflow)               | Built-in background monitoring — zero context growth  |
-| Paper quality gate    | None or simple threshold             | 5-role reviewer panel + critic                         |
+- **Keep the evidence connected.** Link each claim to its experiments, result tables, figures, citations and manuscript location.
+- **Make experiments recoverable.** Record immutable run identities, configurations, logs and terminal states; build tables from the declared run set.
+- **Review the right uncertainty.** Separate script checks, scientific review and author decisions. Recheck the gates affected by a change.
+- **Use the assistant you already have.** Shared `AGENTS.md`, a Claude Code entry point and a generic startup prompt; project-local adapters keep the workflow portable.
+- **Load what the current stage needs.** Choose research, writing, figures or release profiles rather than install a broad global skill collection.
+- **Keep the research yours.** The researcher owns the question, evidence interpretation, manuscript and publishing decision. AI supports the work and does not certify its validity.
 
-### Two Key Advantages
+## Start here
 
-**1. Human Correction Checkpoints**
-
-Unlike fully automated pipelines that run unsupervised, this workflow enforces 4 mandatory gates where domain experts review and correct AI decisions:
-
-| Checkpoint | When                      | What's Reviewed                             |
-| ---------- | ------------------------- | ------------------------------------------- |
-| Gate 1     | Before opening GPU server | Idea novelty + experiment plan completeness |
-| Gate 2     | Before writing paper      | Result quality + claim-evidence alignment   |
-| Gate 3     | Before LaTeX drafting     | Outline structure + contribution clarity    |
-| Gate 4     | Before submission         | Full draft quality audit                    |
-
-Each gate prevents low-quality work from propagating downstream. A rejected gate routes back to the appropriate stage — no wasted compute or writing effort.
-
-**2. Single-Tool Execution**
-
-No API keys to manage. No platform accounts to create. No external services to configure.
-
-The entire workflow runs inside a single AI coding assistant. Literature search uses MCP servers (arXiv, Semantic Scholar, OpenAlex) — configured once and available across projects.
-
----
-
-## Workflow Overview
-
-```
-Stage 0: Initialize          → Project scaffold + venue selection
-Stage 1: Research + Ideation → Literature → Ideas → Novelty check → Experiment plan
-         ──── Gate 1 ────
-Stage 2: Experiments         → Code implementation → Training → Result analysis
-         ──── Gate 2 ────
-Stage 3: Quality Review      → Statistical analysis → Claim validation → Score ≥ 6
-         ──── Gate 3 ────
-Stage 4: Paper Writing       → Outline → Figures → LaTeX → Audit loop
-         ──── Gate 4 ────
-Stage 5: Submission Prep     → Cover letter → Highlights → Final check
-```
-
-## Document Flow
-
-![Document Flow](diagram/fig02.png)
-
-The workflow generates 14 structured documents (`docs/00` through `docs/13`) tracing the complete research narrative from venue selection to final submission.
-
-## 26 Core Skills
-
-| Group              | Skills                                                                                                                      | Purpose                                                                        |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Review (always-on) | `academic-paper-reviewer` `research-review`                                                                             | 5-role panel + critic                                                          |
-| Scaffold           | `pl-ml-project-template`                                                                                                  | PyTorch Lightning project generator                                            |
-| Idea Chain         | `idea-discovery` `research-lit` `idea-creator` `novelty-check` `research-refine`                                  | Literature → brainstorm → validate → refine                                 |
-| Experiment         | `experiment-plan` `ablation-planner` `experiment-bridge` `run-experiment` `pytorch-lightning` `result-to-claim` | Plan → implement → run → evaluate                                           |
-| Monitoring         | `auto-monitor`                                                                                                            | Background experiment monitoring                                               |
-| Analysis           | `auto-review-loop` `analyze-results`                                                                                    | Iterative quality scoring + statistics                                         |
-| Figures            | `paper-figure` `scientific-visualization` `scientific-figure-making` `paper-illustration`                           | Data plots + publication figures + matplotlib patterns + architecture diagrams |
-| Writing            | `paper-plan` `paper-write` `paper-compile` `humanizer` `paper-audit`                                              | Outline → draft → compile → de-AI → audit                                  |
-
-### Skill Attribution
-
-Most skills are adapted from community open-source projects with modifications for this workflow's document handoff protocol. Two skills are original to this project.
-
-| Source                      | Skills                                                  | Notes                                                                                                                       |
-| --------------------------- | ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| **Original**          | `auto-monitor` `pl-ml-project-template`             | Built from scratch for this project                                                                                         |
-| **Community adapted** | All other 24 skills (incl.`scientific-figure-making`) | Sourced from various Claude Code skill repositorie. All modified for inter-skill document handoffs and pipeline integration |
-
----
-
-## Quick Start
-
-### Prerequisites
-
-- [Claude Code](https://claude.ai/code) (or any compatible AI coding assistant)
-- [uv](https://docs.astral.sh/uv/) (Python package installer, for arxiv & semanticscholar MCP)
-- [Node.js](https://nodejs.org/) (for openalex MCP)
-- GPU server with SSH access (for training)
-
-### Setup
-
-1. Clone this repo:
+Download this repository, or clone its URL from GitHub's **Code** menu. Use Python 3.10 or newer. The setup/check utilities need only Python's standard library.
 
 ```bash
-git clone https://github.com/wangyi0403/dl-research-workflow.git
+cd dl-research-workflow
+python tools/project.py check .
+python tools/project.py init ../my-study --agent codex --profile research --dry-run
+python tools/project.py init ../my-study --agent codex --profile research
 ```
 
-2. Install MCP servers for literature search:
+For Claude Code, use `--agent claude`; this also creates native `.claude/skills/` copies. For another file-capable assistant, use `--agent generic` and explicitly provide [AI_START.md](AI_START.md).
+
+DeepSeek Harness and ZCode have `--agent dsh` / `--agent zcode` file-contract presets. [Compatibility notes](docs/AGENT_COMPATIBILITY.md) distinguish documented entry points from live integrations that still need verification.
+
+Open the new project and tell your assistant:
+
+> Read `AGENTS.md`, `AI_START.md` and `docs/00_start.md`. Help me define my research question, data boundaries, success criteria and budget. Inspect the current stage before taking the next action.
+
+Add profiles when the project reaches them:
 
 ```bash
-# arXiv — search & download papers (no API key needed)
-uv tool install arxiv-mcp-server
-
-# Semantic Scholar — published paper search (API key optional, recommended)
-uv tool install semantic-scholar-mcp
-# Optional: get API key at https://www.semanticscholar.org/product/api
-
-# OpenAlex — open academic data (no API key needed)
-npm install -g openalex-mcp
+python tools/project.py add ../my-study --agent codex --profile writing figures
+python tools/project.py check ../my-study
 ```
 
-3. Copy config files and skills into your research project (project-level, no global install):
+Already running a study? Start from its existing evidence and state; the initializer refuses conflicting files instead of overwriting the project. [Setup details](SETUP.md)
 
-```bash
-# Linux / macOS
-cd your-project
-cp /path/to/dl-research-workflow/CLAUDE.md .
-cp /path/to/dl-research-workflow/SETUP.md .
-cp /path/to/dl-research-workflow/.mcp.json .
-mkdir -p .claude/skills
-cp -r /path/to/dl-research-workflow/skills/* .claude/skills/
+## One evidence chain, seven stages
 
-# Windows (PowerShell)
-Set-Location your-project
-Copy-Item \path\to\dl-research-workflow\CLAUDE.md .
-Copy-Item \path\to\dl-research-workflow\SETUP.md .
-Copy-Item \path\to\dl-research-workflow\.mcp.json .
-New-Item -ItemType Directory -Path ".claude\skills" -Force
-Copy-Item -Path "\path\to\dl-research-workflow\skills\*" -Destination ".claude\skills\" -Recurse
-```
+| Stage | Work | Main records / checkpoint |
+|---|---|---|
+| 0 | Define scope, data access, budget and ownership | `docs/00_start.md` |
+| 1 | Audit data; investigate literature; refine questions, methods and experiments | `docs/01`–`05`, Gates A/B |
+| 2 | Execute recorded runs; analyze results and update claims | `experiments/registry`, `docs/06`–`08`, Gate C |
+| 3 | Design the argument, figures and tables | `docs/09`–`10`, Gates D/E |
+| 4 | Draft and check the manuscript against its evidence | `paper/`, `docs/11`, Gate F |
+| 5 | Review and repair scientific or presentation issues | Versioned review findings and actual revisions |
+| 6 | Prepare a reviewable submission/release package | `docs/12_release_readiness.md` |
 
-All 26 skills live inside the project's `.claude/skills/` — no global installation needed. Each research project is fully self-contained.
+The full numbered record filenames are listed in [the document index](docs/README_EN.md). A completed folder or successful script run is not a scientific gate pass.
 
-4. Edit `CLAUDE.md` — fill in your server config (SSH host, port, venue, journals).
-5. (Optional) Set environment variables for higher API rate limits:
+## How this differs from other research-agent projects
 
-```bash
-# Semantic Scholar (higher rate limits)
-export SEMANTIC_SCHOLAR_API_KEY="your-key"
-# OpenAlex (100 req/s instead of 10)
-export OPENALEX_DEFAULT_EMAIL="your@email.com"
-```
+| Project / design | Primary emphasis | This template's emphasis |
+|---|---|---|
+| [AI Scientist-v2](https://github.com/SakanaAI/AI-Scientist-v2) | Autonomous scientific exploration with agentic tree search | An existing assistant working inside a researcher-owned, stage-gated project |
+| [Agent Laboratory](https://github.com/SamuelSchmidgall/AgentLaboratory) | Specialized agents supporting literature review, experiments and reports, with human involvement | Durable question/claim/run/manuscript contracts and selective evidence review |
+| [AI-Researcher](https://github.com/HKUDS/AI-Researcher) | An integrated autonomous research pipeline | A portable project template with replaceable tools and explicit project decisions |
+| [AI Research Skills](https://github.com/Orchestra-Research/AI-Research-SKILLs) | A broad research/engineering skill library plus orchestration | A focused 18-skill core tied to Stage 0–6 records and Gate A–F |
 
-6. Open your project in Claude Code and say:
+These are design comparisons, not measured rankings of paper quality. See [the detailed comparison and source links](docs/COMPARISON.md) and [attribution](NOTICE.md).
 
-```
-新建项目 timeseries
-```
+## What's included
 
-The scaffold skill generates the project structure. Follow `SETUP.md` to load all skills.
-
-### Model Routing (Cost Optimization)
-
-| Tier      | Model  | When to Use                                                                |
-| --------- | ------ | -------------------------------------------------------------------------- |
-| Strongest | Opus   | Idea novelty judgment, contribution definition, reviewer role, paper-audit |
-| Standard  | Sonnet | Most writing, code implementation, experiment-bridge                       |
-| Cheapest  | Haiku  | Citation formatting, log parsing, template filling                         |
-
-## Venue Support
-
-| Venue Type          | Supported Features                           |
-| ------------------- | -------------------------------------------- |
-| Elsevier (DC/SC)    | Highlights, Graphical Abstract, Cover Letter |
-| IEEE (Journal/Conf) | IEEEtran formatting                          |
-| NeurIPS / ICLR      | Reproducibility Checklist, Supplementary PDF |
-| ICML                | Ethics Statement, Reproducibility Statement  |
-
-## File Structure
-
-```
+```text
 .
-├── CLAUDE.md          # Project-level AI instructions (copy to your project)
-├── SETUP.md           # Setup guide + document specs (copy to your project)
-├── .mcp.json          # Project-level MCP config: arxiv + semanticscholar + openalex
-├── skills/            # 26 core skills
-│   ├── academic-paper-reviewer/
-│   ├── auto-monitor/
-│   ├── idea-discovery/
-│   ├── paper-audit/
-│   ├── ...
-│   └── run-experiment/
-├── diagram/           # Architecture and flow diagrams
-└── README.md
+├── AGENTS.md / CLAUDE.md / AI_START.md  # Shared rules and assistant entry points
+├── skill-manifest.json                 # Version, profiles and support dependencies
+├── .agents/skills/                     # 18 core skills with references and scripts
+├── .agenthub/runtime/                  # Paper-audit support; not an extra skill
+├── docs/                              # 00–12 records, workflow and writing guidance
+├── data/                              # Project data, with restricted/raw exclusions
+├── experiments/                       # Configurations, source, runner contracts and registry
+├── results/                           # Traceable structured outputs, figures and tables
+├── paper/                             # Manuscripts and local submission materials
+├── resources/                         # Workflow/organization figures and editable sources
+└── tools/                             # Portable initializer, checks and regression tests
 ```
 
----
+## Practical boundaries
 
-## License
+Adapters supply files and instructions; they do not guarantee every assistant's tool execution, scheduling or native skill discovery. Actual capabilities depend on your selected agent. Optional plotting/audit features list their own dependencies, and missing checks remain explicit rather than passed. No credentials, research data or global MCP configuration are bundled.
 
-MIT License — see [LICENSE](LICENSE).
+Researcher approval is required for external publication, paid compute, data sharing and final scientific claims. Configure those boundaries in `docs/00_start.md`.
+
+MIT for this project's material; preserve the third-party notices in [NOTICE.md](NOTICE.md) and `licenses/`.

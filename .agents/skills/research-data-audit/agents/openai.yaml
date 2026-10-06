@@ -1,0 +1,6 @@
+interface:
+  display_name: "Research Data Audit"
+  short_description: "Audit research data provenance, licensing, schema, missingnes..."
+  default_prompt: "Use $research-data-audit to help with this task."
+policy:
+  allow_implicit_invocation: true

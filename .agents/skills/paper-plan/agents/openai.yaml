@@ -1,0 +1,6 @@
+interface:
+  display_name: "Paper Plan"
+  short_description: "Generate a structured paper outline from review conclusions a..."
+  default_prompt: "Use $paper-plan to help with this task."
+policy:
+  allow_implicit_invocation: true

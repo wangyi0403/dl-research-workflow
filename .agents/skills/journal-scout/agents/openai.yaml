@@ -1,0 +1,6 @@
+interface:
+  display_name: "Journal Scout"
+  short_description: "Scout and evaluate target journals for a research project."
+  default_prompt: "Use $journal-scout to help with this task."
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Paper Illustration"
+  short_description: "Create scientific diagrams and method illustrations."
+  default_prompt: "Use $paper-illustration to help with this task."
+policy:
+  allow_implicit_invocation: true
