@@ -3,7 +3,7 @@
 Project-maintained workflow, packaging and modifications are distributed under
 the root MIT license. Preserve any upstream notices when reusing material.
 
-Two explicitly documented reference sources have accompanying MIT notices:
+Two material-level reference/adaptation sources have accompanying MIT notices:
 
 - [Orchestra Research / AI Research Skills](https://github.com/Orchestra-Research/AI-Research-SKILLs):
   research-ideation lenses referenced by the question-quality guidance.
@@ -17,7 +17,8 @@ Academic references remain identified in their source notes. Full published
 papers, private manuscripts, datasets, model weights and third-party accounts are
 not included. A linked research project is not automatically a copied dependency.
 
-The projects discussed in `docs/COMPARISON.md` provide design context; the
-comparison does not claim that this repository contains all their code or that
-their authors endorse it. Users independently configure and authorize any tools
-or services they choose to use.
+The maintainer acknowledges Nature Skills, K-Dense and the research/literature
+projects mapped in `docs/COMPARISON.md` as design influences. This is distinct
+from the material-level adaptations above and from bundling a complete upstream
+codebase; it does not imply upstream endorsement. Users independently configure
+and authorize any tools or services they choose to use.

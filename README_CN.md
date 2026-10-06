@@ -85,14 +85,22 @@ python tools/project.py check ../my-study
 
 ## 与已有项目有什么区别？
 
-| 项目 / 设计 | 主要侧重 | 本模板的侧重 |
-|---|---|---|
-| [AI Scientist-v2](https://github.com/SakanaAI/AI-Scientist-v2) | 借助 Agent 树搜索进行自主科研探索 | 在研究者主导的项目内，让已有助手按阶段和证据推进 |
-| [Agent Laboratory](https://github.com/SamuelSchmidgall/AgentLaboratory) | 专门 Agent 支持文献、实验和报告，容纳人工参与 | 研究问题、论断、运行和稿件之间的持久记录与定点审查 |
-| [AI-Researcher](https://github.com/HKUDS/AI-Researcher) | 一体化自主科研流程 | 可移植项目模板、可替换工具及明确的项目决定 |
-| [AI Research Skills](https://github.com/Orchestra-Research/AI-Research-SKILLs) | 广泛科研 / 工程技能与调度层 | 围绕 Stage 0–6、Gate A–F 和阶段记录组织18个核心技能 |
+这套模板在科研实践中借鉴了 Nature Skills、K-Dense、AI Research Skills、Academic Research Skills，以及自动化研究和文献综述项目的设计经验。它把这些经验组织成研究者主导的项目流程：**问题 → 实验协议 → 实际运行 → 证据 → 图表 → 稿件**，由 Stage 0–6、Gate A–F 和统一记录承接。
 
-本模板把实验迭代、材料组织、按需读取和人工审查等实践思路落实为可检查的项目结构。上表比较设计侧重，不代表经过统一实验验证的论文质量排名。详见 [设计对比](docs/COMPARISON_CN.md) 与 [来源说明](NOTICE.md)。[来源与可选技能](docs/ECOSYSTEM_CN.md)区分明确改编、独立扩展目录与外部候选。
+| 设计借鉴来源 | 借鉴的侧重 | 在本模板中的组织方式与区别 |
+|---|---|---|
+| [AI Scientist-v2](https://github.com/SakanaAI/AI-Scientist-v2) | 自主研究与实验迭代 | 把探索推进落实为有预算、停止条件与产物核验的阶段流程 |
+| [Agent Laboratory](https://github.com/SamuelSchmidgall/AgentLaboratory) | 文献—实验—报告的角色协作 | 交接携带问题、论断和运行 ID，主控核验后整合 |
+| [AI-Researcher](https://github.com/HKUDS/AI-Researcher) | 连接选题、研究执行与论文的端到端流程 | 用项目内记录接续全流程，保留工具替换和研究者决定 |
+| [AI Research Skills](https://github.com/Orchestra-Research/AI-Research-SKILLs) | 可复用科研技能与研究构思视角 | 围绕 Stage 0–6、Gate A–F 组织18项核心；问题质量参考保留来源 |
+| [K-Dense Scientific Agent Skills](https://github.com/K-Dense-AI/scientific-agent-skills) | 系统文献流程、引文核验与科学可视化 | 文献服务于可检验论断，图表关联真实运行和数据；不要求装完整技能库 |
+| [Nature Skills](https://github.com/Yuan1z0825/nature-skills) | 结构化文献处理、学术表达与科研绘图流程 | 把文献、论断、图表和稿件接入统一阶段记录与核验规则 |
+| [Academic Research Skills](https://github.com/Imbad0202/academic-research-skills) | 研究—写作—审阅—修订的闭环 | 审阅结论绑定稿件版本，修复后重验受影响的 Gate |
+| [PaperOrchestra](https://github.com/Ar9av/PaperOrchestra) | 技能驱动的论文流水线与质量评估 | 按具体风险选择审阅视角，以实际证据和修订闭环验收 |
+
+文献工作流还借鉴了 Research Literature Review、AIPOCH Systematic Review、Medical Imaging Review 和 Research Superpower。逐项对应见[完整设计对比](docs/COMPARISON_CN.md)。
+
+这里说明设计借鉴及本模板的实现重点；**设计借鉴、材料改编和随包提供代码是不同关系**。18项核心的实际范围见[来源与收录范围](docs/ECOSYSTEM_CN.md)，改编材料的归属见[NOTICE](NOTICE.md)。比较不代表统一实验下的性能或论文质量排名。
 
 ## 仓库内容
 

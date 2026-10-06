@@ -86,14 +86,22 @@ The IDs shown are illustrative. Actual claims must resolve to the project’s re
 
 ## How this differs from other research-agent projects
 
-| Project / design | Primary emphasis | This template's emphasis |
-|---|---|---|
-| [AI Scientist-v2](https://github.com/SakanaAI/AI-Scientist-v2) | Autonomous scientific exploration with agentic tree search | An existing assistant working inside a researcher-owned, stage-gated project |
-| [Agent Laboratory](https://github.com/SamuelSchmidgall/AgentLaboratory) | Specialized agents supporting literature review, experiments and reports, with human involvement | Durable question/claim/run/manuscript contracts and selective evidence review |
-| [AI-Researcher](https://github.com/HKUDS/AI-Researcher) | An integrated autonomous research pipeline | A portable project template with replaceable tools and explicit project decisions |
-| [AI Research Skills](https://github.com/Orchestra-Research/AI-Research-SKILLs) | A broad research/engineering skill library plus orchestration | A focused 18-skill core tied to Stage 0–6 records and Gate A–F |
+Developed through research practice, this template draws on design experience from Nature Skills, K-Dense, AI Research Skills, Academic Research Skills, and automated research/literature-review projects. It organizes those patterns into a researcher-led chain: **question → protocol → recorded run → evidence → figures → manuscript**, supported by Stage 0–6, Gate A–F and persistent records.
 
-These are design comparisons, not measured rankings of paper quality. See [the detailed comparison and source links](docs/COMPARISON.md) and [attribution](NOTICE.md). [Sources and optional skills](docs/ECOSYSTEM.md) distinguish documented adaptations from external extension candidates.
+| Design influence | Pattern considered | How this template organizes it |
+|---|---|---|
+| [AI Scientist-v2](https://github.com/SakanaAI/AI-Scientist-v2) | Autonomous research and experimental iteration | Stage-based progress with budgets, stop rules and checked artifacts |
+| [Agent Laboratory](https://github.com/SamuelSchmidgall/AgentLaboratory) | Literature–experiment–report role collaboration | Handoffs carry question, claim and run IDs; the lead agent verifies integration |
+| [AI-Researcher](https://github.com/HKUDS/AI-Researcher) | Connecting ideas, research execution and manuscripts | Persistent project records across stages, with replaceable tools and researcher decisions |
+| [AI Research Skills](https://github.com/Orchestra-Research/AI-Research-SKILLs) | Reusable research skills and ideation lenses | 18 focused skills organized around Stage 0–6 and Gate A–F; question-quality references retain attribution |
+| [K-Dense Scientific Agent Skills](https://github.com/K-Dense-AI/scientific-agent-skills) | Systematic literature workflows, citation checks and scientific visualization | Literature supports testable claims; figures trace to recorded runs and data without requiring the whole library |
+| [Nature Skills](https://github.com/Yuan1z0825/nature-skills) | Structured literature processing, academic expression and figure workflows | Literature, claims, figures and manuscripts connect through shared stage records and checks |
+| [Academic Research Skills](https://github.com/Imbad0202/academic-research-skills) | Research–writing–review–revision loops | Review findings bind to manuscript versions; repairs recheck affected gates |
+| [PaperOrchestra](https://github.com/Ar9av/PaperOrchestra) | Skill-based paper pipelines and quality assessment | Review perspectives follow the actual risk, with evidence and completed repairs as acceptance criteria |
+
+Literature-workflow influences also include Research Literature Review, AIPOCH Systematic Review, Medical Imaging Review and Research Superpower. See the [full design comparison](docs/COMPARISON.md) for each mapping.
+
+These are design influences and implementation emphases. **Design influence, adapted material and bundled code are distinct relationships.** See [sources and distribution scope](docs/ECOSYSTEM.md) for the 18-skill boundary and [NOTICE](NOTICE.md) for adapted-material attribution. This is not a measured ranking of scientific or manuscript quality.
 
 ## What's included
 

@@ -1,24 +1,28 @@
 # 阶段文档索引
 
+[English](README_EN.md) | [简体中文](README.md)
+
+[返回首页](../README_CN.md) · [工作流](WORKFLOW.md) · [写作规范](WRITING_STANDARD.md)
+
 本目录保存科研项目的编号产物。先读取 `00_start.md`，再按项目根目录 `AGENTS.md` 的按需路由确定当前 Stage 和最小读取集；阶段/Gate 判据以 `WORKFLOW.md` 为准。不要把未核验内容写成已完成事实。
 
 | 文件 | 用途 |
 |---|---|
-| `WORKFLOW.md` | Stage 0–6、Gate A–F、失败路由、交接与完成条件；只读当前阶段所需部分 |
-| `WRITING_STANDARD.md` | 用户七章默认、篇幅与图表参考配额、标题/摘要/图注/结论及格式验收；规划/写作/投稿时按需读 |
-| `00_start.md` | 研究问题、范围、数据边界、算力、授权和交付物冻结 |
-| `01_data_analysis.md` | 数据来源、版本与哈希、模式、质量、划分与变换、Running Example |
-| `02_journal_scouting.md` | 目标期刊/venue 的 scope、作者指南和相关工作 |
-| `03_idea_report.md` | 研究问题卡、证据图、候选想法、查新、Pilot 和 Gate A |
-| `04_methodology.md` | 问题形式化、假设、最小充分机制、路线和风险 |
-| `05_experiment_plan.md` | Claim—实验映射、基线、指标、消融、统计和停止规则 |
-| `06_result_tables.md` | 预先定义的结果表、指标和数据来源 |
-| `07_experiment_tracker.md` | active-run、唯一监督、累计重试与偏离决定 |
-| `08_analysis.md` | 结果、不确定性、失败案例、稳健性和 Claim 状态 |
-| `09_paper_plan.md` | 论文类型、叙事轴、证据位置、图表和局限 |
-| `10_figure_report.md` | 图表来源、叙事角色、视觉 QA 和一致性检查 |
-| `11_pre_submission_audit.md` | 引文、数值、局限、披露和可编译性审查 |
-| `12_release_readiness.md` | 本地发布就绪、许可、脱敏、复现和校验和清单 |
+| [WORKFLOW.md](WORKFLOW.md) | Stage 0–6、Gate A–F、失败路由、交接与完成条件；只读当前阶段所需部分 |
+| [WRITING_STANDARD.md](WRITING_STANDARD.md) | 用户七章默认、篇幅与图表参考配额、标题/摘要/图注/结论及格式验收；规划/写作/投稿时按需读 |
+| [00_start.md](00_start.md) | 研究问题、范围、数据边界、算力、授权和交付物冻结 |
+| [01_data_analysis.md](01_data_analysis.md) | 数据来源、版本与哈希、模式、质量、划分与变换、Running Example |
+| [02_journal_scouting.md](02_journal_scouting.md) | 目标期刊/venue 的 scope、作者指南和相关工作 |
+| [03_idea_report.md](03_idea_report.md) | 研究问题卡、证据图、候选想法、查新、Pilot 和 Gate A |
+| [04_methodology.md](04_methodology.md) | 问题形式化、假设、最小充分机制、路线和风险 |
+| [05_experiment_plan.md](05_experiment_plan.md) | Claim—实验映射、基线、指标、消融、统计和停止规则 |
+| [06_result_tables.md](06_result_tables.md) | 预先定义的结果表、指标和数据来源 |
+| [07_experiment_tracker.md](07_experiment_tracker.md) | active-run、唯一监督、累计重试与偏离决定 |
+| [08_analysis.md](08_analysis.md) | 结果、不确定性、失败案例、稳健性和 Claim 状态 |
+| [09_paper_plan.md](09_paper_plan.md) | 论文类型、叙事轴、证据位置、图表和局限 |
+| [10_figure_report.md](10_figure_report.md) | 图表来源、叙事角色、视觉 QA 和一致性检查 |
+| [11_pre_submission_audit.md](11_pre_submission_audit.md) | 引文、数值、局限、披露和可编译性审查 |
+| [12_release_readiness.md](12_release_readiness.md) | 本地发布就绪、许可、脱敏、复现和校验和清单 |
 
 复现单篇论文时，可在 `docs/reproduction/<paper-key>/` 增加带证据标签的复现契约；它不改变模板的 18 个核心 Skill。
 

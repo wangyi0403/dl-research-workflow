@@ -1,5 +1,9 @@
 # Research records
 
+[English](README_EN.md) | [简体中文](README.md)
+
+[Home](../README.md) · [Workflow](WORKFLOW_EN.md) · [Writing guide](WRITING_STANDARD_EN.md)
+
 The current state, authority, next gate and resumption links live in `00_start.md`.
 Read only the records relevant to the present stage. Each record owns a particular
 piece of the research rather than duplicate every decision.

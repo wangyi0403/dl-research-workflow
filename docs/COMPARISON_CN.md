@@ -15,15 +15,33 @@
 | 助手可以替换 | 通用文件契约、规范技能目录、Claude副本与显式读取入口 |
 | 上下文按需展开 | 00当前状态、阶段文档和能力profile分层读取 |
 
-## 相关项目
+## 设计借鉴与本模板的实现
 
-- [AI Scientist-v2](https://github.com/SakanaAI/AI-Scientist-v2)以自主假设生成、实验和稿件生成以及渐进式Agent树搜索为侧重。本模板提供研究者主导的工作区和阶段检查协议，供已有助手使用。
-- [Agent Laboratory](https://github.com/SamuelSchmidgall/AgentLaboratory)通过专门Agent支持文献、实验与报告，并容纳不同程度的人工参与。本模板侧重持久的论断、证据和运行记录，以及绑定产物版本的审阅判断。
-- [AI-Researcher](https://github.com/HKUDS/AI-Researcher)强调一体化自主科研流程。本发布版强调项目内文件、可替换工具、分阶段能力及研究者的明确决定。
-- [AI Research Skills](https://github.com/Orchestra-Research/AI-Research-SKILLs)提供广泛的领域技能和autoresearch调度层。本模板围绕编号记录和Gate组织核心能力，保留有据的来源与许可说明。
+本模板的设计借鉴包括下列项目。借鉴主要体现为科研推进、文献处理、技能组织、图文协同与审阅修复的工作方法；下表把来源与本模板中可检查的实现方式对应起来。公开包保留其18项核心和项目记录，不要求运行所有上游项目。
 
-上述比较是设计侧重，不是统一实验下的性能排名，也不意味着其他项目缺少相应功能。本仓库没有据此宣布新颖性、稿件质量、录用率、成本或速度优势。一手README核验日期为2026-10-06，其他项目仍可能演进。
+| 设计借鉴来源 | 借鉴的侧重 | 在本模板中的组织方式与区别 |
+|---|---|---|
+| [AI Scientist-v2](https://github.com/SakanaAI/AI-Scientist-v2) | 自主研究与实验迭代 | 把探索推进落实为有预算、停止条件与产物核验的阶段流程 |
+| [Agent Laboratory](https://github.com/SamuelSchmidgall/AgentLaboratory) | 文献—实验—报告的角色协作 | 交接携带问题、论断和运行 ID，主控核验后整合 |
+| [AI-Researcher](https://github.com/HKUDS/AI-Researcher) | 连接选题、研究执行与论文的端到端流程 | 用项目内记录接续全流程，保留工具替换和研究者决定 |
+| [AI Research Skills](https://github.com/Orchestra-Research/AI-Research-SKILLs) | 可复用科研技能与研究构思视角 | 围绕 Stage 0–6、Gate A–F 组织18项核心；问题质量参考保留来源 |
+| [K-Dense Scientific Agent Skills](https://github.com/K-Dense-AI/scientific-agent-skills) | 系统文献流程、引文核验与科学可视化 | 文献服务于可检验论断，图表关联真实运行和数据；不要求装完整技能库 |
+| [Nature Skills](https://github.com/Yuan1z0825/nature-skills) | 结构化文献处理、学术表达与科研绘图流程 | 把文献、论断、图表和稿件接入统一阶段记录与核验规则 |
+| [Academic Research Skills](https://github.com/Imbad0202/academic-research-skills) | 研究—写作—审阅—修订的闭环 | 审阅结论绑定稿件版本，修复后重验受影响的 Gate |
+| [PaperOrchestra](https://github.com/Ar9av/PaperOrchestra) | 技能驱动的论文流水线与质量评估 | 按具体风险选择审阅视角，以实际证据和修订闭环验收 |
+| [Research Literature Review](https://github.com/huangwb8/ChineseResearchLaTeX/tree/main/skills/research-literature-review) | 全流程文献综合与相关工作组织 | 文献综合进入问题和证据图，保持引用核验与正文论断一致 |
+| [AIPOCH Systematic Review](https://github.com/aipoch/medical-research-skills) | 检索、筛选与证据质量评价的规范化 | 按研究类型明确纳入规则与证据强度；通用流程不等同医学系统综述认证 |
+| [Medical Imaging Review](https://github.com/luwill/research-skills/tree/main/medical-imaging-review) | 面向具体领域的问题、方法与文献组织 | 以数据审计和领域评价协议承接专项知识，保护比较公平性 |
+| [Research Superpower](https://github.com/kthorn/research-superpower) | 文献发现、筛选、引文追踪与综合 | 检索服务于研究缺口与论断判断；原文支持和来源标识进入记录 |
 
-## 来源说明
+### 一个具体例子
 
-有明确记录的改编参考材料见 [NOTICE.md](../NOTICE.md)。其他项目列为设计背景和对比来源，不自动等同于复制依赖。本模板整合实验迭代、产物状态、渐进读取与证据审阅等实践思路，不宣称包含科研Agent生态中所有项目的代码或功能。
+采用文献流程的检索、筛选和综合经验后，相关工作不止成为一份读书报告：它进入 `03_idea_report.md` 的问题与证据图，支持 `05_experiment_plan.md` 的比较和检验，再关联 `08_analysis.md` 的论断处置、`09_paper_plan.md` 的叙事位置及 `11_pre_submission_audit.md` 的引文核验。文献技能、实验助手和写作助手由这条共同记录链接续。
+
+Nature Skills 的文献流水线、K-Dense 的文献综述工具和本模板可承担不同层次的工作。设计借鉴不表示本模板自动拥有它们的定时推送、所有数据库、专项医学流程或完整工具集合。
+
+## 来源与收录范围
+
+设计借鉴依据维护者的开发说明；上游功能依据链接中的项目文档，本模板的实现依据当前文件和工具。逐项代码或文字改编的声明仍须对应具体材料与许可，见 [NOTICE](../NOTICE.md)；实际随包范围见[来源与收录范围](ECOSYSTEM_CN.md)。
+
+Medical Imaging Review 在多个仓库中存在同名技能，表中链接明确指定本次对比对象；PaperOrchestra 与 Orchestra Research 是不同项目。比较说明设计侧重，不代表其他项目缺少某种能力，也不宣称论文质量、录用率、成本或速度优势。一手项目页面核验日期：2026-10-06。
