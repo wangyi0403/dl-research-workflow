@@ -11,6 +11,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 FOLDERS = ("data", "experiments/configs", "experiments/src", "results/data", "results/figures", "results/logs", "results/tables", "paper")
 ROOT_FILES = ("AGENTS.md", "AI_START.md", "CLAUDE.md", "README.md", "README_CN.md", "SETUP.md", "SETUP_CN.md", "LICENSE", "NOTICE.md", "VERSION", ".gitignore", ".gitattributes", "skill-manifest.json", "skills-catalog.json")
+LICENSE_FILES = ("Orchestra-Research-MIT.txt", "lieflat-less-ai-tone-MIT.txt")
 
 def manifest(root=ROOT):
     return json.loads((root / "skill-manifest.json").read_text(encoding="utf-8"))
@@ -46,10 +47,12 @@ def prepare(target, operation, profiles, explicit, agent, dry_run):
         if not destination.resolve().is_relative_to(target):
             raise ValueError(f"Destination escapes project: {relative}")
         plan[destination] = source.read_bytes()
+    for name in LICENSE_FILES:
+        include(ROOT / "licenses" / name, Path("licenses") / name)
     if operation == "init":
         for relative in ROOT_FILES:
             include(ROOT / relative, relative)
-        for folder in ("docs", "resources", "experiments", "tools"):
+        for folder in ("docs", "resources", "experiments", "tools", "licenses"):
             for source in files_under(ROOT / folder):
                 include(source, source.relative_to(ROOT))
         for relative in FOLDERS:
@@ -119,6 +122,8 @@ def check(target):
         expected = declared
     for relative in ROOT_FILES:
         require((target / relative).is_file(), f"Missing {relative}")
+    for name in LICENSE_FILES:
+        require((target / "licenses" / name).is_file(), f"Missing upstream license: {name}")
     for relative in FOLDERS:
         require((target / relative).is_dir(), f"Missing directory {relative}")
     installed = {p.name for p in (target / ".agents/skills").glob("*") if (p / "SKILL.md").is_file()}

@@ -2,7 +2,9 @@
 
 **从研究问题，到证据可追溯的论文。**
 
-[English](README.md) · [简体中文](README_CN.md) · [快速开始](SETUP_CN.md) · [完整流程](docs/WORKFLOW.md) · [设计对比](docs/COMPARISON_CN.md)
+[English](README.md) | [简体中文](README_CN.md)
+
+[快速开始](#快速开始) · [完整流程](docs/WORKFLOW.md) · [设计对比](docs/COMPARISON_CN.md)
 
 ![版本](https://img.shields.io/badge/version-3.0.0-2563eb)
 ![核心技能](https://img.shields.io/badge/core_skills-18-16a34a)
@@ -13,7 +15,9 @@
 
 **18个核心技能 · Stage 0–6 · Gate A–F · 可追溯实验 · 中英文指南**
 
-![科研工作流](resources/workflow.png)
+![科研工作流](resources/workflow-cn.png)
+
+*本图为流程概览；检查点位置与条件路径以[工作流规则](docs/WORKFLOW.md)为准。*
 
 ## 这套模板解决什么问题？
 
@@ -26,31 +30,38 @@
 
 ## 快速开始
 
-下载本仓库，或从 GitHub 的 **Code** 菜单复制仓库地址进行克隆。使用 Python 3.10 及以上版本；初始化和结构检查只依赖 Python 标准库。
+下载或克隆本仓库，使用 Python 3.10+。**从发布仓库目录**执行以下命令，在仓库之外创建独立研究项目；初始化仅依赖标准库。
 
 ```bash
-cd dl-research-workflow
-python tools/project.py check .
-python tools/project.py init ../my-study --agent codex --profile research --dry-run
-python tools/project.py init ../my-study --agent codex --profile research
-```
-
-Claude Code 使用 `--agent claude`，会额外生成其原生 `.claude/skills/` 副本。其他能读取项目文件的助手使用 `--agent generic`，显式提供 [AI_START.md](AI_START.md)。
-
-DeepSeek Harness、ZCode分别提供 `--agent dsh` / `--agent zcode` 文件契约预设。[兼容说明](docs/AGENT_COMPATIBILITY.md)区分有官方文档依据的入口和仍需实际环境核验的集成行为。
-
-在新项目中告诉助手：
-
-> 先读 `AGENTS.md`、`AI_START.md` 和 `docs/00_start.md`。帮我明确研究问题、数据边界、成功标准与预算，根据当前阶段决定下一步。
-
-研究进入写作、绘图阶段后再补充：
-
-```bash
-python tools/project.py add ../my-study --agent codex --profile writing figures
+python tools/project.py init ../my-study --agent generic --profile research --dry-run
+python tools/project.py init ../my-study --agent generic --profile research
 python tools/project.py check ../my-study
 ```
 
-已有研究沿用现有证据、成果与状态；初始化器在发现不同内容时停止，不覆盖已有项目。[完整安装说明](SETUP_CN.md)
+按所用助手替换 `--agent` 的值：
+
+| 助手 | 参数值 | 打开 `my-study` 后使用 |
+|---|---|---|
+| Codex | `codex` | `AGENTS.md` 与项目 `.agents/skills/` |
+| Claude Code | `claude` | `CLAUDE.md` 与生成的 `.claude/skills/` 副本 |
+| DeepSeek Harness | `dsh` | 显式提供 `AI_START.md` 与当前技能文件 |
+| ZCode | `zcode` | 工作区 `AGENTS.md`；显式读技能或选择项目级导入 |
+| 其他可读项目文件的助手 | `generic` | 下方启动提示词，显式读取项目文件 |
+
+**打开新项目后，直接把这段话发给助手：**
+
+```text
+读取当前工作区的 AGENTS.md、AI_START.md 和 docs/00_start.md。
+使用简体中文交流；论文语言按本项目约定。
+先确认当前阶段、已有证据和缺失的关键决定。
+新项目先帮我明确研究问题、数据边界、成功标准和预算。
+只加载当前阶段与相关技能；在已约定范围内提出并完成下一项有用工作。
+报告实际产物与核验结果，不把缺失检查当作通过。
+```
+
+后续**从完整发布仓库**运行 `python tools/project.py add ../my-study --profile writing figures`。省略 `--agent` 会沿用项目原适配方式；如希望一开始装齐18项技能，初始化时选择 `--profile full`。
+
+[分组、已有项目保护及依赖说明](SETUP_CN.md) · [兼容边界与官方依据](docs/AGENT_COMPATIBILITY.md)。适配器提供文件入口，原生技能发现和实际工具调用取决于宿主。
 
 ## 七个阶段，一条证据链
 
@@ -66,6 +77,12 @@ python tools/project.py check ../my-study
 
 完整记录位置见 [文档索引](docs/README.md)。目录齐全、脚本运行成功和科学 Gate 通过是不同的完成条件。
 
+### 从论文论断追溯实际证据
+
+![研究问题、论断、运行、结果与稿件之间的证据链](resources/evidence-chain-cn.png)
+
+图中 ID 为结构示例。实际论断必须关联本项目真实运行和产物；建立链接本身不代表科学结论成立。
+
 ## 与已有项目有什么区别？
 
 | 项目 / 设计 | 主要侧重 | 本模板的侧重 |
@@ -75,7 +92,7 @@ python tools/project.py check ../my-study
 | [AI-Researcher](https://github.com/HKUDS/AI-Researcher) | 一体化自主科研流程 | 可移植项目模板、可替换工具及明确的项目决定 |
 | [AI Research Skills](https://github.com/Orchestra-Research/AI-Research-SKILLs) | 广泛科研 / 工程技能与调度层 | 围绕 Stage 0–6、Gate A–F 和阶段记录组织18个核心技能 |
 
-本模板把实验迭代、材料组织、按需读取和人工审查等实践思路落实为可检查的项目结构。上表比较设计侧重，不代表经过统一实验验证的论文质量排名。详见 [设计对比](docs/COMPARISON_CN.md) 与 [来源说明](NOTICE.md)。
+本模板把实验迭代、材料组织、按需读取和人工审查等实践思路落实为可检查的项目结构。上表比较设计侧重，不代表经过统一实验验证的论文质量排名。详见 [设计对比](docs/COMPARISON_CN.md) 与 [来源说明](NOTICE.md)。[来源与可选技能](docs/ECOSYSTEM_CN.md)区分明确改编、独立扩展目录与外部候选。
 
 ## 仓库内容
 

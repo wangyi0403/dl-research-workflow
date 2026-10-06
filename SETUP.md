@@ -1,12 +1,14 @@
 # Portable setup
 
-[English](SETUP.md) · [简体中文](SETUP_CN.md)
+[English](SETUP.md) | [简体中文](SETUP_CN.md)
+
+[Home](README.md) · [Copy the startup prompt](README.md#start-here)
 
 ## Prerequisites
 
 Use Python 3.10+ and an assistant able to read project files. Setup uses only the standard library. Scientific execution needs the packages and tools required by the chosen study; these are not installed automatically.
 
-## Choose an interface
+## Interface details
 
 | Interface | Setup option | Entry / discovery |
 |---|---|---|
@@ -25,8 +27,8 @@ DSH/ZCode modes retain the canonical project skill directory; they do not instal
 Run from the distribution checkout:
 
 ```bash
-python tools/project.py init ../my-study --agent generic --profile full --dry-run
-python tools/project.py init ../my-study --agent generic --profile full
+python tools/project.py init ../my-study --agent generic --profile research --dry-run
+python tools/project.py init ../my-study --agent generic --profile research
 python tools/project.py check ../my-study
 ```
 
@@ -44,11 +46,11 @@ Use a separate directory outside the distribution checkout. Initialization check
 
 ```bash
 python tools/project.py init ../my-study --agent claude --profile research
-python tools/project.py add ../my-study --agent claude --profile writing figures
+python tools/project.py add ../my-study --profile writing figures
 python tools/project.py list
 ```
 
-`--skill <name> ...` selects individual bundled skills. `add` supplements an existing project without rewriting its research records. Use the distribution checkout as the source for adding profiles; a partial study does not contain the omitted skills.
+`--skill <name> ...` selects individual bundled skills. When adding skills, omit `--agent` to preserve the existing adapter. `add` supplements an existing project without rewriting its research records. Use the distribution checkout as the source for adding profiles; a partial study does not contain the omitted skills.
 
 The public distribution includes only the 18-core catalog. Additional domain skills can be separately selected from a reviewed source under the project owner's authorization; the full local skill marketplace is not bundled.
 

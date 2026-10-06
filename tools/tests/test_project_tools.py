@@ -61,6 +61,25 @@ class DeploymentTests(unittest.TestCase):
         result = self.command("init", ROOT, "--dry-run")
         self.assertNotEqual(result.returncode, 0)
 
+    def test_deployments_preserve_upstream_licenses_and_detect_missing_notice(self):
+        for profile in ("research", "full"):
+            with self.subTest(profile=profile):
+                target = self.target.parent / profile
+                result = self.command("init", target, "--profile", profile)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                for source in (ROOT / "licenses").glob("*.txt"):
+                    self.assertEqual(source.read_bytes(), (target / "licenses" / source.name).read_bytes())
+                missing = target / "licenses/Orchestra-Research-MIT.txt"
+                missing.unlink()
+                result = self.command("check", target)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("Missing upstream license", result.stdout)
+                result = self.command("add", target, "--profile", profile)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertEqual(missing.read_bytes(), (ROOT / "licenses" / missing.name).read_bytes())
+                result = self.command("check", target)
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def test_file_contract_interfaces_do_not_create_vendor_global_configuration(self):
         for agent in ("codex", "dsh", "zcode", "generic"):
             with self.subTest(agent=agent):

@@ -1,12 +1,14 @@
 # 可移植安装说明
 
-[English](SETUP.md) · [简体中文](SETUP_CN.md)
+[English](SETUP.md) | [简体中文](SETUP_CN.md)
+
+[返回首页](README_CN.md) · [复制启动提示词](README_CN.md#快速开始)
 
 ## 前置条件
 
 使用 Python 3.10+ 和能读取项目文件的助手。初始化仅依赖标准库；研究执行所需的软件、模型与数据依赖按具体项目选择，不自动安装。
 
-## 选择助手入口
+## 助手入口细节
 
 | 助手 | 参数 | 入口 / 技能目录 |
 |---|---|---|
@@ -25,8 +27,8 @@ DSH/ZCode方式保留通用项目技能目录，不安装厂商插件或修改�
 从发布仓库目录运行：
 
 ```bash
-python tools/project.py init ../my-study --agent generic --profile full --dry-run
-python tools/project.py init ../my-study --agent generic --profile full
+python tools/project.py init ../my-study --agent generic --profile research --dry-run
+python tools/project.py init ../my-study --agent generic --profile research
 python tools/project.py check ../my-study
 ```
 
@@ -44,11 +46,11 @@ python tools/project.py check ../my-study
 
 ```bash
 python tools/project.py init ../my-study --agent claude --profile research
-python tools/project.py add ../my-study --agent claude --profile writing figures
+python tools/project.py add ../my-study --profile writing figures
 python tools/project.py list
 ```
 
-可用 `--skill <name> ...` 选择具体技能。`add` 补充项目能力，不重写研究记录。补装时从发布仓库执行；只装部分 profile 的研究项目本身没有未选择技能的源文件。
+可用 `--skill <name> ...` 选择具体技能。补装时省略 `--agent` 会沿用现有适配器。`add` 补充项目能力，不重写研究记录。补装时从发布仓库执行；只装部分 profile 的研究项目本身没有未选择技能的源文件。
 
 公开版只包含18项核心目录。学科技能按需从经过核验的来源选择，并满足项目授权；完整个人技能市场不随仓库上传。
 

@@ -2,7 +2,9 @@
 
 **From a research question to an auditable paper.**
 
-[English](README.md) · [简体中文](README_CN.md) · [Quick start](SETUP.md) · [Workflow](docs/WORKFLOW_EN.md) · [Design comparison](docs/COMPARISON.md)
+[English](README.md) | [简体中文](README_CN.md)
+
+[Quick start](#start-here) · [Workflow](docs/WORKFLOW_EN.md) · [Design comparison](docs/COMPARISON.md)
 
 ![Version](https://img.shields.io/badge/version-3.0.0-2563eb)
 ![Core skills](https://img.shields.io/badge/core_skills-18-16a34a)
@@ -13,7 +15,9 @@ A portable, evidence-driven research workspace for AI agents. Organize questions
 
 **18 focused skills · Stage 0–6 · Gate A–F · traceable experiments · bilingual guides**
 
-![Research workflow](resources/workflow.png)
+![Research workflow](resources/workflow-en.png)
+
+*Overview illustration; checkpoint placement and conditional paths follow the [workflow guide](docs/WORKFLOW_EN.md).*
 
 ## Why use it?
 
@@ -26,31 +30,39 @@ A portable, evidence-driven research workspace for AI agents. Organize questions
 
 ## Start here
 
-Download this repository, or clone its URL from GitHub's **Code** menu. Use Python 3.10 or newer. The setup/check utilities need only Python's standard library.
+Download or clone this repository. Use Python 3.10+ and run these commands **from the distribution checkout**. The initializer uses only the standard library and creates a separate study outside this checkout.
 
 ```bash
-cd dl-research-workflow
-python tools/project.py check .
-python tools/project.py init ../my-study --agent codex --profile research --dry-run
-python tools/project.py init ../my-study --agent codex --profile research
-```
-
-For Claude Code, use `--agent claude`; this also creates native `.claude/skills/` copies. For another file-capable assistant, use `--agent generic` and explicitly provide [AI_START.md](AI_START.md).
-
-DeepSeek Harness and ZCode have `--agent dsh` / `--agent zcode` file-contract presets. [Compatibility notes](docs/AGENT_COMPATIBILITY.md) distinguish documented entry points from live integrations that still need verification.
-
-Open the new project and tell your assistant:
-
-> Read `AGENTS.md`, `AI_START.md` and `docs/00_start.md`. Help me define my research question, data boundaries, success criteria and budget. Inspect the current stage before taking the next action.
-
-Add profiles when the project reaches them:
-
-```bash
-python tools/project.py add ../my-study --agent codex --profile writing figures
+python tools/project.py init ../my-study --agent generic --profile research --dry-run
+python tools/project.py init ../my-study --agent generic --profile research
 python tools/project.py check ../my-study
 ```
 
-Already running a study? Start from its existing evidence and state; the initializer refuses conflicting files instead of overwriting the project. [Setup details](SETUP.md)
+Choose the `--agent` value for your assistant:
+
+| Assistant | Value | Open `my-study` and use |
+|---|---|---|
+| Codex | `codex` | `AGENTS.md` + project `.agents/skills/` |
+| Claude Code | `claude` | `CLAUDE.md` + generated `.claude/skills/` copies |
+| DeepSeek Harness | `dsh` | Explicitly provide `AI_START.md` and the relevant skill files |
+| ZCode | `zcode` | Workspace `AGENTS.md`; explicit skill reading or project-scoped import |
+| Other file-capable agents | `generic` | The startup prompt below and explicit file reading |
+
+**Paste into your assistant after opening the new project:**
+
+```text
+Read AGENTS.md, AI_START.md and docs/00_start.md in this workspace.
+Use English for our conversation unless I request another language.
+First identify the current stage, existing evidence and missing decisions.
+For a new study, help me define the question, data boundaries, success
+criteria and budget. Load only the relevant stage and skill files.
+Propose and complete the next useful action within the agreed scope;
+report actual outputs and verification. Do not treat missing checks as passes.
+```
+
+Later, run `python tools/project.py add ../my-study --profile writing figures` **from the complete distribution**. Omitting `--agent` preserves the project's existing adapter. Use `--profile full` at initialization if you want all 18 skills now.
+
+[Profiles, existing-project safety and dependencies](SETUP.md) · [Agent compatibility and official sources](docs/AGENT_COMPATIBILITY.md). The adapters supply files; live native discovery and tool use depend on the host. Detailed shared stage records are currently Chinese; the English workflow guide explains their purpose and IDs.
 
 ## One evidence chain, seven stages
 
@@ -66,6 +78,12 @@ Already running a study? Start from its existing evidence and state; the initial
 
 The full numbered record filenames are listed in [the document index](docs/README_EN.md). A completed folder or successful script run is not a scientific gate pass.
 
+### Follow a claim back to its evidence
+
+![Evidence traceability: question, claim, run, results and manuscript](resources/evidence-chain-en.png)
+
+The IDs shown are illustrative. Actual claims must resolve to the project’s recorded runs and artifacts; a link alone does not establish scientific validity.
+
 ## How this differs from other research-agent projects
 
 | Project / design | Primary emphasis | This template's emphasis |
@@ -75,7 +93,7 @@ The full numbered record filenames are listed in [the document index](docs/READM
 | [AI-Researcher](https://github.com/HKUDS/AI-Researcher) | An integrated autonomous research pipeline | A portable project template with replaceable tools and explicit project decisions |
 | [AI Research Skills](https://github.com/Orchestra-Research/AI-Research-SKILLs) | A broad research/engineering skill library plus orchestration | A focused 18-skill core tied to Stage 0–6 records and Gate A–F |
 
-These are design comparisons, not measured rankings of paper quality. See [the detailed comparison and source links](docs/COMPARISON.md) and [attribution](NOTICE.md).
+These are design comparisons, not measured rankings of paper quality. See [the detailed comparison and source links](docs/COMPARISON.md) and [attribution](NOTICE.md). [Sources and optional skills](docs/ECOSYSTEM.md) distinguish documented adaptations from external extension candidates.
 
 ## What's included
 
